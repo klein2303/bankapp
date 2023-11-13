@@ -1,4 +1,36 @@
-actor User
-User -> "~#handleLoginButton: Button" as handleLoginButton: click
-User -> "~#handleSignUpClick: Button" as handleSignUpClick: click
-handleSignUpClick -> register: handleSignUpClick
+@startuml
+
+actor UserInterface
+participant BankAppController
+participant RemoteProfilesAccess
+participant Profile
+
+UserInterface -> BankAppController: registerButton Clicked
+activate BankAppController
+BankAppController -> RemoteProfilesAccess: createNewProfile()
+activate RemoteProfilesAccess
+RemoteProfilesAccess --> BankAppController: Profile Created
+deactivate RemoteProfilesAccess
+BankAppController --> UserInterface: Registration Successful
+deactivate BankAppController
+
+UserInterface -> BankAppController: loginButton Clicked
+activate BankAppController
+BankAppController -> UserInterface: handleLoginButton()
+deactivate BankAppController
+
+UserInterface -> BankAppController: settingsButton Clicked
+activate BankAppController
+BankAppController -> UserInterface: goToSettings()
+deactivate BankAppController
+
+UserInterface -> BankAppController: updateSettings Clicked
+activate BankAppController
+BankAppController -> RemoteProfilesAccess: handleUpdateSettings()
+activate RemoteProfilesAccess
+RemoteProfilesAccess --> BankAppController: Settings Updated
+deactivate RemoteProfilesAccess
+deactivate BankAppController
+
+
+@enduml

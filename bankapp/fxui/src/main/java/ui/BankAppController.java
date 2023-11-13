@@ -861,12 +861,14 @@ public class BankAppController {
         .flatMap(profile -> profile.getAccounts().stream())
         .filter(account -> account.getAccNr().equals(sAccount))
         .findFirst().orElse(null);
+    System.out.println("første person");
 
     pAcc = (SpendingsAccount) profilesAccess.getProfiles()
         .stream()
         .flatMap(profile -> profile.getAccounts().stream())
         .filter(account -> account.getAccNr().equals(pAccount2))
         .findFirst().orElse(null);
+    System.out.println("andre person");
 
     for (Profile profile2 : profilesAccess.getProfiles()) {
       if (profile2.ownsAccount(sAcc))
@@ -874,8 +876,10 @@ public class BankAppController {
     }
     try {
       Bill bill = new Bill(Integer.parseInt(bAmount), bName, seller.getName(), sAcc, pAcc, profile);
+      System.out.println(seller.getName());
       profile.addBill(bill);
       writeInfo();
+      System.out.println("skrevet inn informasjon");
       feedbackInNewBill.setText("New Bill Created!");
       billName.setText("");
       billAmount.setText("");
