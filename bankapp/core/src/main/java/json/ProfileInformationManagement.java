@@ -83,7 +83,6 @@ public class ProfileInformationManagement {
 
     List<Profile> profiles = objectMapper.readValue(file, new TypeReference<List<Profile>>() {
     });
-    System.err.println();
     return profiles;
   }
 

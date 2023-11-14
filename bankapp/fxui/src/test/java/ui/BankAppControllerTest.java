@@ -264,7 +264,7 @@ public class BankAppControllerTest extends ApplicationTest {
       clickOn("#payFromChoiceBox");
       clickOn(controller.getProfile().getAccounts().stream().filter(a -> a.getName().equals("Spendings account"))
           .findAny().get().getAccNr());
-      clickOn("#payTo").write("1234 68 05617"); // bruker en profile (Taylor Swift profilen) som er lagret i filen
+      clickOn("#payTo").write("1234 53 02035"); // bruker en profile (Taylor Swift profilen) som er lagret i filen
       clickOn("#payButton");
       FxAssert.verifyThat("#pay", NodeMatchers.isVisible());
       clickOn("#homeTab");
