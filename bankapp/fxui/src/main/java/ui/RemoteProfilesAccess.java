@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import core.Profile;
 import core.Transaction;
 import core.accounts.AbstractAccount;
+
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -63,7 +64,7 @@ public class RemoteProfilesAccess {
           HttpResponse.BodyHandlers.ofString());
       profile = objectMapper.readValue(response.body(), Profile.class);
     } catch (IOException | InterruptedException e) {
-      throw new RuntimeException(e);
+      throw new RuntimeException("Invalid email");
     }
     return profile;
   }

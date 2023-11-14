@@ -1,0 +1,159 @@
+@startuml
+class Profile {
+    -String name
+    -String email
+    -String tlf
+    -String password
+    -List<AbstractAccount> accounts
+    -List<BankCard> bankcards
+    -List<Bill> bills
+
+    -boolean validEmail(String email)
+    -boolean validPassword(String password)
+    -boolean validTlf(String tlf)
+    -boolean validName(String name)
+    -boolean isNumeric(String test)
+    +void addAccount(AbstractAccount account)
+    +void removeAccount(AbstractAccount account)
+    +int getTotalBalance() 
+    +void changePassword(String password)
+    +void changeTlf(String tlf)
+    +String getEmail()
+    +String getName()
+    +String getTlf()
+    +String getPassword()
+    +List<AbstractAccount> getAccounts() 
+    +boolean ownsAccount(AbstractAccount account)
+    +List<BankCard> getBankCards()
+    +List<String> accountsWithoutBankcards()
+    +List<String> getListOfNotBlockedAccNrBankCards()
+    +List<String>  getListOfBlockedAccNrBankCards()
+    +BankCard getBankCard(String spendingsAccountAsString)
+    +SpendingsAccount findSpendingsAccount(String spendingsAccountName)
+    +AbstractAccount findAbstractAccountByAccNr(String accountNr) 
+    +AbstractAccount findAbstractAccountByName(String name)
+    +List<SpendingsAccount> getSpendingsAccounts()
+}
+
+abstract class AbstractAccount {
+    -Profile profile;
+    -String name;
+    -Balance balance;
+    -List<String> accNrs 
+    -List<Transaction> transactions 
+    -String accNr;
+    -boolean showInPreview = false;
+    -Random RANDOM = new Random()
+
+    +String getName()
+    +void add(int amount)
+    +int getBalance()
+    +void remove(int amount)
+    +void setAccNr()
+    +String getAccNr()
+    +void renameAccount(String name)
+    +Profile getProfile()
+    +void changePreview()
+    +boolean showInPreview()
+    +void addTransaction(Transaction transaction)
+    +List<Transaction> getTransaction()
+    +void transferFrom(AbstractAccount account, int amount)
+}
+
+class BsuAccount {
+    +String toString()
+}
+
+class SavingsAccount {
+    +String toString()
+}
+
+class SpendingsAccount {
+    -BankCard bankCard
+    
+    +void createBankCard()
+    +boolean hasBankCard()
+    +BankCard getBankCard()
+    +void pay(SpendingsAccount account, int amount)
+    +String toString()
+}
+
+class Balance {
+    -int balance
+
+    +void increase(int amount)
+    +void decrease(int amount)
+    +int getBalance()
+}
+
+class BankCard {
+    -String cardholder;
+    -List<String> cardNrs = new ArrayList<>();
+    -String cardNr;
+    -SpendingsAccount account;
+    -boolean cardBlocked;
+    -Random RANDOM = new Random();
+
+    -void setCardNr()
+    +String getCardholder()
+    +SpendingsAccount getAccount()
+    +String getCardNr()
+    +void blockCard()
+    +void unblockCard()
+    +boolean isCardBlocked()
+}
+
+
+class Transaction {
+    -String email;
+    -String transactionTo;
+    -String name;
+    -String transactionFrom;
+    -int amount;
+
+    +String getEmail()
+    +String getTransactionTo()
+    +String getName()
+    +String getTransactionFrom()
+    +int getAmount()
+}
+
+class ProfileInformationManagement{
+    -{static} final ObjectMapper objectMapper;
+    +{static}void writeInformationToFile(Profile profile, String filename)
+    +{static}List<Profile> readFromFile(String filename)
+    +{static}void deleteProfile(String filename, Profile profile)
+    +{static} void clearFile(String filename)
+}
+
+class TransactionsPersistence{
+    +{static}void writeTransactions(Transaction transaction, String filename)
+    +{static}List<Transaction> readTransactions(String filename)
+    +{static}List<Transaction> getProfilesTransaction(Profile profile, String filename)
+    +{static}void clearFile(String filename)
+}
+
+class Logics {
+    -{static} final String endpointBaseUri = "http://localhost:8080/profiles/";
+
+    +{static} Transaction[] getReveredTransactionsArray(List<Transaction> transactions)
+    +{static} SpendingsAccount findOverallSpendingsAccount(String accountNr, List<Profile> profiles)
+    +{static} Profile checkProfile(Profile profile, String password)
+    +{static} void checkAlreadyRegistered(List<Profile> profiles, String email, String phoneNr)
+}
+
+
+Profile "1" -- "*" AbstractAccount
+AbstractAccount <|-- BsuAccount
+AbstractAccount <|-- SpendingsAccount
+AbstractAccount <|-- SavingsAccount
+AbstractAccount "1" --> "*" Transaction
+AbstractAccount --> Balance
+SpendingsAccount -- BankCard
+Profile "1" --> "*" BankCard
+
+
+TransactionsPersistence "1" --> "*" Transaction
+ProfileInformationManagement "1" --> "*" Profile
+
+@enduml

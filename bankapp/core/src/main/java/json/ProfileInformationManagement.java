@@ -21,6 +21,7 @@ import java.util.List;
  * 
  */
 public class ProfileInformationManagement {
+  private static final ObjectMapper objectMapper = new ObjectMapper();
 
   /**
    * Writes the new information of a profile to a file.
@@ -40,7 +41,6 @@ public class ProfileInformationManagement {
     if (!(file.exists())) {
       throw new IOException("File does not exists");
     }
-    ObjectMapper objectMapper = new ObjectMapper();
     List<Profile> profiles;
 
     try {
@@ -56,7 +56,6 @@ public class ProfileInformationManagement {
           .findFirst().orElse(null);
       profiles.set(profiles.indexOf(oldProfile), profile);
     }
-
     objectMapper.writeValue(file, profiles);
   }
 
@@ -81,7 +80,7 @@ public class ProfileInformationManagement {
     if (!(file.exists())) {
       throw new IOException("File does not exists");
     }
-    ObjectMapper objectMapper = new ObjectMapper();
+
     List<Profile> profiles = objectMapper.readValue(file, new TypeReference<List<Profile>>() {
     });
     System.err.println();
@@ -104,6 +103,10 @@ public class ProfileInformationManagement {
 
   public static void deleteProfile(String filename, Profile profile)
       throws StreamReadException, DatabindException, IOException {
+    File file = new File(filename);
+    if (!(file.exists())) {
+      throw new IOException("File does not exists");
+    }
     List<Profile> profiles = new ArrayList<>(readFromFile(filename));
     String tlf = profile.getTlf();
     for (Profile profileRemove : profiles) {
@@ -113,12 +116,6 @@ public class ProfileInformationManagement {
       }
     }
 
-    File file = new File(filename);
-    if (!(file.exists())) {
-      throw new IOException("File does not exists");
-    }
-
-    ObjectMapper objectMapper = new ObjectMapper();
     objectMapper.writeValue(file, profiles);
 
   }
@@ -146,5 +143,4 @@ public class ProfileInformationManagement {
     outputStream.flush();
     outputStream.close();
   }
-
 }

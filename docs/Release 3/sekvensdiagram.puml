@@ -33,6 +33,8 @@ deactivate RemoteProfilesAccess
 BankAppController --> UserInterface: Settings Updated
 deactivate BankAppController
 
+
+
 UserInterface -> BankAppController: goToTransferButton Clicked
 activate BankAppController
 BankAppController -> UserInterface: goToTransfer()

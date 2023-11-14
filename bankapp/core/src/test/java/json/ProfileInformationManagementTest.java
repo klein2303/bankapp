@@ -14,7 +14,6 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.core.exc.StreamWriteException;
 import com.fasterxml.jackson.databind.DatabindException;
 
-import core.Bill;
 import core.Profile;
 import core.accounts.SpendingsAccount;
 
@@ -26,8 +25,6 @@ public class ProfileInformationManagementTest {
 
     private SpendingsAccount acc1;
     private SpendingsAccount acc2;
-
-    private Bill bill1;
 
     private static final String currentDir = System.getProperty("user.dir");
     private static final String file = currentDir + "/src/test/java/json/ProfileInformationTest.json";
@@ -46,8 +43,6 @@ public class ProfileInformationManagementTest {
         profile1.addAccount(acc1);
         acc2 = new SpendingsAccount("Heui", profile2);
         profile2.addAccount(acc2);
-        bill1 = new Bill(150, "Groceries", "Kari Nordmann", acc2, acc1, profile1);
-        profile1.addBill(bill1);
     }
 
     @Test
@@ -55,6 +50,7 @@ public class ProfileInformationManagementTest {
     public void testFakeFile() {
         assertThrows(IOException.class, () -> ProfileInformationManagement.writeInformationToFile(profile1, fakeFile));
         assertThrows(IOException.class, () -> ProfileInformationManagement.readFromFile(fakeFile));
+        assertThrows(IOException.class, () -> ProfileInformationManagement.deleteProfile(fakeFile, profile1));
 
     }
 
@@ -69,7 +65,6 @@ public class ProfileInformationManagementTest {
         assertEquals("40123456", profiles.get(0).getTlf());
         assertEquals("Passord1", profiles.get(0).getPassword());
         assertEquals(acc1.getAccNr(), profiles.get(0).getAccounts().get(0).getAccNr());
-        assertEquals(bill1.getAmount(), profiles.get(0).getBills().get(0).getAmount());
 
         profile1.changePassword("NyttPassord123");
         ProfileInformationManagement.writeInformationToFile(profile1, file);
@@ -90,7 +85,6 @@ public class ProfileInformationManagementTest {
         assertEquals("40123456", profiles.get(0).getTlf());
         assertEquals("Passord1", profiles.get(0).getPassword());
         assertEquals(acc1.getAccNr(), profiles.get(0).getAccounts().get(0).getAccNr());
-        assertEquals(bill1.getAmount(), profiles.get(0).getBills().get(0).getAmount());
 
         assertEquals("Kari Nordmann", profiles.get(1).getName());
         assertEquals("Kari@ntnu.no", profiles.get(1).getEmail());
@@ -117,35 +111,6 @@ public class ProfileInformationManagementTest {
     }
 
     @Test
-    @DisplayName("Tests if information in file is right after paying bills and if the bill gets removed after paying")
-    public void testBills() throws StreamWriteException, DatabindException, IOException {
-        acc1.add(200); // seller
-        acc2.add(150); // payer
-        bill1.pay(); // bill1 costs 150
-
-        ProfileInformationManagement.writeInformationToFile(profile1, file);
-        ProfileInformationManagement.writeInformationToFile(profile2, file);
-        profiles = new ArrayList<>(ProfileInformationManagement.readFromFile(file));
-
-        assertEquals(50, profiles.get(0).getAccounts().get(0).getBalance());
-        assertEquals(300, profiles.get(1).getAccounts().get(0).getBalance());
-
-        assertEquals(0, profiles.get(0).getBills().size());
-    }
-
-    @Test
-    @DisplayName("Test exception if bill is larger that money in account")
-    public void testBillException() throws StreamWriteException, DatabindException, IOException {
-        acc1.add(100); // seller
-        acc2.add(100); // payer
-        ProfileInformationManagement.writeInformationToFile(profile1, file);
-        ProfileInformationManagement.writeInformationToFile(profile2, file);
-        profiles = new ArrayList<>(ProfileInformationManagement.readFromFile(file));
-
-        assertThrows(IllegalArgumentException.class, () -> bill1.pay());
-    }
-
-    @Test
     @DisplayName("Test if bankcard gets written in to file correctly")
     public void testBankCardUpdated() throws StreamWriteException, DatabindException, IOException {
         acc1.createBankCard();
@@ -164,7 +129,6 @@ public class ProfileInformationManagementTest {
         ProfileInformationManagement.deleteProfile(file, profile1);
         assertTrue(ProfileInformationManagement.readFromFile(file).size() == 0);
 
-        assertThrows(IOException.class, () -> ProfileInformationManagement.deleteProfile(fakeFile, profile1));
     }
 
 }
