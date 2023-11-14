@@ -447,8 +447,7 @@ public class Profile implements Serializable {
     BankCard bankCard = null;
     bankCard = this.getBankCards().stream()
         .filter(bankCard2 -> bankCard2.getAccount().getAccNr().equals(spendingsAccountNr))
-        .findFirst()
-        .orElse(null);
+        .findFirst().orElse(null);
     if (bankCard == null) {
       throw new IllegalArgumentException("Account does not have bankcard");
     }
@@ -459,18 +458,16 @@ public class Profile implements Serializable {
    * Finds a spendingsaccount with a given accountnumber.
    *
    * @param spendingsAccountNr The spendingsaccount's accountnumber to search for
-   *
    * @return The spendingsaccount
    *
    * @throws IllegalArgumentException Throws if spendingsaccount does not exist
    */
   public SpendingsAccount findSpendingsAccount(String spendingsAccountNr) {
     AbstractAccount abstractAccount = null;
-    abstractAccount = this.getAccounts()
-        .stream()
-        .filter(account -> account.getAccNr().equals(spendingsAccountNr) && account instanceof SpendingsAccount)
-        .findFirst()
-        .orElse(null);
+    abstractAccount = this.getAccounts().stream()
+        .filter(account -> account.getAccNr()
+            .equals(spendingsAccountNr) && account instanceof SpendingsAccount)
+        .findFirst().orElse(null);
     if (abstractAccount == null) {
       throw new IllegalArgumentException("There is no such spendingsaccount");
     }
@@ -479,20 +476,24 @@ public class Profile implements Serializable {
   }
 
   /**
-   * Used in transfer operation to find the
-   * 
-   * @param profile
-   * @param accountNr
-   * @return
+   * Used in transfer operation to find the account with given account number.
+   *
+   * @param accountNr - Account number to search for
+   * @return Account with given account number
    */
   public AbstractAccount findAbstractAccountByAccNr(String accountNr) {
     AbstractAccount acc1 = this.getAccounts().stream()
         .filter(account -> account.getAccNr().equals(accountNr))
-        .findFirst()
-        .orElse(null);
+        .findFirst().orElse(null);
     return acc1;
   }
 
+  /**
+   * Finds account this profile owns by name.
+   *
+   * @param name - name to search for
+   * @return Account with given name
+   */
   public AbstractAccount findAbstractAccountByName(String name) {
     AbstractAccount acc1 = this.getAccounts().stream()
         .filter(account -> account.getName().equals(name))
@@ -501,6 +502,7 @@ public class Profile implements Serializable {
     return acc1;
   }
 
+  @JsonIgnore
   public List<SpendingsAccount> getSpendingsAccounts() {
     return getAccounts().stream().filter(account -> (account instanceof SpendingsAccount))
         .map(account -> (SpendingsAccount) account).collect(Collectors.toList());

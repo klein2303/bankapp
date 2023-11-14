@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import core.Profile;
 import core.Transaction;
 import core.accounts.AbstractAccount;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -122,7 +121,6 @@ public class RemoteProfilesAccess {
     final HttpRequest request = HttpRequest.newBuilder(profileUri(email + "/transactions"))
         .GET().build();
     try {
-      System.out.println(endpointBaseUri.resolve(profileUri(email + "/transactions")));
       final HttpResponse<String> response = HttpClient.newBuilder().build().send(request,
           HttpResponse.BodyHandlers.ofString());
       transactions = objectMapper.readValue(response.body(),

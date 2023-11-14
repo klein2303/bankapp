@@ -77,8 +77,7 @@ public class ProfilesAppTest {
       List<Profile> profiles = objectMapper.readValue(result.getResponse().getContentAsString(),
           new TypeReference<List<Profile>>() {
           });
-      assertTrue(profiles.stream().anyMatch(profile -> profile.getEmail().equals("klein@gmail.com")));
-      assertTrue(profiles.stream().anyMatch(profile -> profile.getEmail().equals("adalovelace@gmail.no")));
+      assertTrue(profiles.stream().anyMatch(profile -> profile.getEmail().equals("taylor@gmail.com")));
     } catch (JsonProcessingException e) {
       fail(e.getMessage());
     }
@@ -87,14 +86,14 @@ public class ProfilesAppTest {
   @Test
   @DisplayName("Tests fetching of specific profile through spring server")
   public void testGet_profile() throws Exception {
-    MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(profilesUrl("klein@gmail.com"))
+    MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(profilesUrl("taylor@gmail.com"))
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andReturn();
     try {
       Profile profile = objectMapper.readValue(result.getResponse().getContentAsString(),
           Profile.class);
-      assertEquals("klein@gmail.com", profile.getEmail());
+      assertEquals("taylor@gmail.com", profile.getEmail());
     } catch (JsonProcessingException e) {
       fail(e.getMessage());
     }
@@ -103,7 +102,7 @@ public class ProfilesAppTest {
   @Test
   @DisplayName("Tests fetching of specific profiles transaction through spring server")
   public void getProfile_transactions() throws Exception {
-    MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(profilesUrl("adalovelace@gmail.no", "transactions"))
+    MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get(profilesUrl("taylor@gmail.com", "transactions"))
         .accept(MediaType.APPLICATION_JSON))
         .andExpect(MockMvcResultMatchers.status().isOk())
         .andReturn();
@@ -113,7 +112,7 @@ public class ProfilesAppTest {
           });
       assertFalse(transactions.isEmpty());
       for (Transaction transaction : transactions) {
-        assertTrue(transaction.getEmail().equals("adalovelace@gmail.no"));
+        assertTrue(transaction.getEmail().equals("taylor@gmail.com"));
       }
     } catch (JsonProcessingException e) {
       fail(e.getMessage());

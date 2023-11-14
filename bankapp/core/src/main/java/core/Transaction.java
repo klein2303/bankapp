@@ -44,7 +44,7 @@ public class Transaction implements Serializable {
       @JsonProperty("transactionTo") String transactionTo,
       @JsonProperty("name") String name,
       @JsonProperty("transactionFrom") String transactionFrom,
-      @JsonProperty("amount") int amount,@JsonProperty("message") String message) {
+      @JsonProperty("amount") int amount, @JsonProperty("message") String message) {
     if (transactionFrom.equals(transactionTo)) {
       throw new IllegalArgumentException("Can't make transaction from account to the same account");
     }
@@ -105,9 +105,10 @@ public class Transaction implements Serializable {
 
   /**
    * Getter for message.
+   *
    * @return Whether the transaction was a payment or transfer
    */
-  public String getMessage(){
+  public String getMessage() {
     return message;
   }
 
