@@ -267,8 +267,6 @@ public class BankAppControllerTest extends ApplicationTest {
       clickOn("#payTo").write("1234 68 05617"); // bruker en profile (Taylor Swift profilen) som er lagret i filen
       clickOn("#payButton");
       FxAssert.verifyThat("#pay", NodeMatchers.isVisible());
-      assertTrue(controller.getProfile().getAccounts().stream()
-          .filter(a -> a.getName().equals("Spendings account")).findAny().get().getBalance() == 80);
       clickOn("#homeTab");
       FxAssert.verifyThat("#spendingAccountBalance", hasText("80"));
       clickOn("#savingsTab");
