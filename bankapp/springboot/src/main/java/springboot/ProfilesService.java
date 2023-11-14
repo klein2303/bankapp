@@ -28,7 +28,6 @@ public class ProfilesService {
    */
   public List<Profile> getProfiles() {
     try {
-      System.out.println(profInfo);
       List<Profile> profiles = ProfileInformationManagement.readFromFile(profInfo);
       return profiles;
     } catch (Exception e) {
