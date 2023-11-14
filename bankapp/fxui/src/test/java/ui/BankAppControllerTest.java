@@ -162,7 +162,7 @@ public class BankAppControllerTest extends ApplicationTest {
     }
 
     @Test
-    @DisplayName("Testing if an account is deleted correctly for already exsisting account, and that you get an error if you try to delete an account that doesn't exist")
+    @DisplayName("Testing if an account is deleted correctly for already exsisting account, and that you get an error if you try to delete an account that doesn'texist")
     public void testDeleteAccount() {
       clickOn("#newAccountButton");
       clickOn("#selectAccountType");
@@ -184,12 +184,6 @@ public class BankAppControllerTest extends ApplicationTest {
     @DisplayName("Testing if the transfers transfers money correctly between different accounts")
     public void testTransferMoney() {
       clickOn("#newAccountButton");
-      ChoiceBox<String> choiceBox = lookup("#selectAccountType").query();
-      clickOn(choiceBox);
-      clickOn("Checking account");
-      clickOn("#giveAccountName").write("BlockCard TestAccount");
-      clickOn("#createAccountButton");
-
       ChoiceBox<String> choiceBox1 = lookup("#selectAccountType").query();
       clickOn(choiceBox1);
       clickOn("Checking account");
@@ -259,7 +253,8 @@ public class BankAppControllerTest extends ApplicationTest {
     }
 
     @Test
-    @DisplayName("Testing if one pays money to the correct account, and that the profile updates accordingly")
+    @DisplayName("Testing if one pays money to the correct account, and that theprofile updates accordingly")
+
     public void testPayMoney() {
       clickOn("#paymentsTab");
       clickOn("#goToPayButton");
@@ -272,68 +267,103 @@ public class BankAppControllerTest extends ApplicationTest {
       clickOn("#payTo").write("1234 53 02035"); // bruker en profile (Taylor Swift profilen) som er lagret i filen
       clickOn("#payButton");
       FxAssert.verifyThat("#pay", NodeMatchers.isVisible());
-      assertTrue(controller.getProfile().getAccounts().stream()
-          .filter(a -> a.getName().equals("Spendings account")).findAny().get().getBalance() == 80);
       clickOn("#homeTab");
       FxAssert.verifyThat("#spendingAccountBalance", hasText("80"));
       clickOn("#savingsTab");
       FxAssert.verifyThat("#totalBalance", hasText("80"));
     }
 
-    // @Test
-    // @DisplayName("Testing if a card can be made")
-    // public void testMakeCard() {
-    // clickOn("#profileTab");
-    // clickOn("#cardsButton");
-    // FxAssert.verifyThat("#settings", NodeMatchers.isVisible());
-    // int tempCardSize = controller.getProfile().getBankCards().size();
+    @Test
+    @DisplayName("Testing if a card can be made")
+    public void testMakeCard() {
+      clickOn("#profileTab");
+      clickOn("#cardsButton");
+      FxAssert.verifyThat("#settings", NodeMatchers.isVisible());
+      int tempCardSize = controller.getProfile().getBankCards().size();
 
-    // clickOn("#orderCardButton");
-    // FxAssert.verifyThat("#deleteAccount", NodeMatchers.isVisible());
-    // clickOn("#orderOrBlockChoiceBox");
-    // clickOn(controller.getProfile().getAccounts().stream().filter(a ->
-    // a.getName().equals("Spendings account"))
-    // .findAny().get().getAccNr());
-    // clickOn("#orderOrBlockButton");
-    // assertTrue(controller.getProfile().getBankCards().size() > tempCardSize);
-    // }
+      clickOn("#orderCardButton");
+      FxAssert.verifyThat("#deleteAccount", NodeMatchers.isVisible());
+      clickOn("#orderOrBlockChoiceBox");
+      clickOn(controller.getProfile().getAccounts().stream().filter(a -> a.getName().equals("Spendings account"))
+          .findAny().get().getAccNr());
+      clickOn("#orderOrBlockButton");
+      assertTrue(controller.getProfile().getBankCards().size() > tempCardSize);
+      FxAssert.verifyThat("#profileTab", NodeMatchers.isVisible());
+    }
 
-    // @Test
-    // @DisplayName("Testing if a card can be blocked")
-    // public void testBlockCard() {
-    // clickOn("#profileTab");
-    // clickOn("#cardsButton");
-    // clickOn("#blockCardButton");
-    // FxAssert.verifyThat("#deleteAccount", NodeMatchers.isVisible());
-    // clickOn("#orderOrBlockChoiceBox");
-    // clickOn(controller.getProfile().getAccounts().stream().filter(a ->
-    // a.getName().equals("BlockCard TestAccount"))
-    // .findAny().get().getAccNr());
-    // clickOn("#orderOrBlockButton");
-    // assertTrue(!controller.getProfile().getBankCards().stream()
-    // .filter(a -> a.getAccount().getName().equals("BlockCard
-    // TestAccount")).filter(c -> c.isCardBlocked())
-    // .findAny().isEmpty());
-    // }
+    @Test
+    @DisplayName("Testing if a card can be blocked")
+    public void testBlockCard() {
+      clickOn("#newAccountButton");
+      ChoiceBox<String> choiceBox = lookup("#selectAccountType").query();
+      clickOn(choiceBox);
+      clickOn("Checking account");
+      clickOn("#giveAccountName").write("BlockCard TestAccount");
+      clickOn("#createAccountButton");
 
-    // @Test
-    // @DisplayName("Testing if a card can be unblocked")
-    // public void testUnblockCard() {
-    // clickOn("#profileTab");
-    // clickOn("#cardsButton");
-    // clickOn("#unblockCardButton");
-    // System.out.println("har vært inne i unblock card");
-    // FxAssert.verifyThat("#deleteAccount", NodeMatchers.isVisible());
-    // clickOn("#orderOrBlockChoiceBox");
-    // clickOn(controller.getProfile().getAccounts().stream().filter(a ->
-    // a.getName().equals("Spendings account"))
-    // .findAny().get().getAccNr());
-    // clickOn("#orderOrBlockButton");
-    // assertTrue(controller.getProfile().getBankCards().stream()
-    // .filter(a -> a.getAccount().getName().equals("UnblockCard
-    // TestAccount")).filter(c -> c.isCardBlocked())
-    // .findAny().isEmpty());
-    // }
+      clickOn("#profileTab");
+      clickOn("#cardsButton");
+      clickOn("#orderCardButton");
+      clickOn("#orderOrBlockChoiceBox");
+      clickOn(controller.getProfile().getAccounts().stream().filter(a -> a.getName().equals("BlockCard TestAccount"))
+          .findAny().get().getAccNr());
+      clickOn("#orderOrBlockButton");
+
+      clickOn("#profileTab");
+      clickOn("#cardsButton");
+      clickOn("#blockCardButton");
+      FxAssert.verifyThat("#deleteAccount", NodeMatchers.isVisible());
+      clickOn("#orderOrBlockChoiceBox");
+      clickOn(controller.getProfile().getAccounts().stream().filter(a -> a.getName().equals("BlockCard TestAccount"))
+          .findAny().get().getAccNr());
+      clickOn("#orderOrBlockButton");
+      assertTrue(!controller.getProfile().getBankCards().stream()
+          .filter(a -> a.getAccount().getName().equals("BlockCard TestAccount")).filter(c -> c.isCardBlocked())
+          .findAny().isEmpty());
+      FxAssert.verifyThat("#settings", NodeMatchers.isVisible());
+    }
+
+    @Test
+    @DisplayName("Testing if a card can be unblocked")
+    public void testUnblockCard() {
+      clickOn("#newAccountButton");
+      ChoiceBox<String> choiceBox = lookup("#selectAccountType").query();
+      clickOn(choiceBox);
+      clickOn("Checking account");
+      clickOn("#giveAccountName").write("UnblockCard TestAccount");
+      clickOn("#createAccountButton");
+
+      clickOn("#profileTab");
+      clickOn("#cardsButton");
+      clickOn("#orderCardButton");
+      clickOn("#orderOrBlockChoiceBox");
+      clickOn(controller.getProfile().getAccounts().stream().filter(a -> a.getName().equals("UnblockCard TestAccount"))
+          .findAny().get().getAccNr());
+      clickOn("#orderOrBlockButton");
+
+      clickOn("#profileTab");
+      clickOn("#cardsButton");
+      clickOn("#blockCardButton");
+      clickOn("#orderOrBlockChoiceBox");
+      clickOn(controller.getProfile().getAccounts().stream().filter(a -> a.getName().equals("UnblockCard TestAccount"))
+          .findAny().get().getAccNr());
+      clickOn("#orderOrBlockButton");
+      assertFalse(controller.getProfile().getBankCards().stream()
+          .filter(a -> a.getAccount().getName().equals("UnblockCard TestAccount")).filter(c -> c.isCardBlocked())
+          .findAny().isEmpty());
+
+      clickOn("#profileTab");
+      clickOn("#cardsButton");
+      clickOn("#unblockCardButton");
+      FxAssert.verifyThat("#deleteAccount", NodeMatchers.isVisible());
+      clickOn("#orderOrBlockChoiceBox");
+      clickOn(controller.getProfile().getAccounts().stream().filter(a -> a.getName().equals("UnblockCard TestAccount"))
+          .findAny().get().getAccNr());
+      clickOn("#orderOrBlockButton");
+      assertTrue(controller.getProfile().getBankCards().stream()
+          .filter(a -> a.getAccount().getName().equals("UnblockCard TestAccount")).filter(c -> c.isCardBlocked())
+          .findAny().isEmpty());
+    }
 
     @Test
     @DisplayName("Testing if the profile updates accordingly to valid and unvalid inputs")
