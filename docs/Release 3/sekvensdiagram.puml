@@ -1,0 +1,71 @@
+@startuml
+
+actor UserInterface
+participant BankAppController
+participant RemoteProfilesAccess
+
+UserInterface -> BankAppController: registerButton Clicked
+activate BankAppController
+BankAppController -> RemoteProfilesAccess: createNewProfile()
+activate RemoteProfilesAccess
+RemoteProfilesAccess --> BankAppController: Profile Created
+deactivate RemoteProfilesAccess
+BankAppController --> UserInterface: Registration Successful
+deactivate BankAppController
+
+UserInterface -> BankAppController: loginButton Clicked
+activate BankAppController
+BankAppController --> UserInterface: Logged In
+deactivate BankAppController
+
+
+UserInterface -> BankAppController: settingsButton Clicked
+activate BankAppController
+BankAppController -> UserInterface: goToSettings()
+deactivate BankAppController
+
+UserInterface -> BankAppController: updateSettings Clicked
+activate BankAppController
+BankAppController -> RemoteProfilesAccess: handleUpdateSettings()
+activate RemoteProfilesAccess
+RemoteProfilesAccess --> BankAppController: Settings Updated
+deactivate RemoteProfilesAccess
+BankAppController --> UserInterface: Settings Updated
+deactivate BankAppController
+
+
+
+UserInterface -> BankAppController: goToTransferButton Clicked
+activate BankAppController
+BankAppController -> UserInterface: goToTransfer()
+deactivate BankAppController
+
+UserInterface -> BankAppController: transferButton Clicked
+activate BankAppController
+BankAppController -> RemoteProfilesAccess: Initiates Transactions
+activate RemoteProfilesAccess
+RemoteProfilesAccess --> BankAppController: Handles Transaction
+deactivate RemoteProfilesAccess
+BankAppController -->  UserInterface: updateTransaction()
+deactivate BankAppController
+
+UserInterface -> BankAppController: goToPayButton Clicked
+activate BankAppController
+BankAppController -> UserInterface: goToPay() 
+deactivate BankAppController
+
+UserInterface -> BankAppController: payButton Clicked
+activate BankAppController
+BankAppController -> RemoteProfilesAccess: Initiates Payment
+activate RemoteProfilesAccess
+RemoteProfilesAccess --> BankAppController: Handles Payment
+deactivate RemoteProfilesAccess
+BankAppController -->  UserInterface: updateTransaction()
+deactivate BankAppController
+
+UserInterface -> BankAppController: logoutButton Clicked
+activate BankAppController
+BankAppController --> UserInterface: Logged Out
+deactivate BankAppController
+
+@enduml
