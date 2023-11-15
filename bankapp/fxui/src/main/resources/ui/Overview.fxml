@@ -57,7 +57,8 @@
                                     <Font name="System Bold" size="24.0" />
                                  </font>
                               </Text>
-                              <Label fx:id="spendingAccountBalance" layoutX="48.0" layoutY="42.0" text="XXXX kr">
+                              <Label fx:id="spendingAccountBalance" layoutX="48.0" layoutY="42.0"
+                                 text="XXXX kr">
                                  <font>
                                     <Font size="36.0" />
                                  </font>
@@ -66,6 +67,20 @@
                         </AnchorPane>
                      </children>
                   </AnchorPane>
+                  <Label fx:id="newAccountButton" layoutX="14.0" layoutY="381.0"
+                     onMouseClicked="#goToAccount2" text="Create new account" textFill="#214c69"
+                     underline="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="deleteAccountButton" layoutX="261.0" layoutY="381.0"
+                     onMouseClicked="#handleDeleteAccountStage1" text="Delete an account"
+                     textFill="#214c69" underline="true">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
                </children>
             </AnchorPane>
             <AnchorPane prefHeight="54.0" prefWidth="423.0" GridPane.rowIndex="2">
@@ -147,7 +162,7 @@
                   <ImageView fitHeight="115.0" fitWidth="112.0" layoutX="282.0" layoutY="17.0"
                      pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@Logo.png" />
+                        <Image url="@images/Logo.png" />
                      </image>
                   </ImageView>
                   <Label fx:id="profileName" layoutX="21.0" layoutY="112.0" text="Welcome, Name!"
