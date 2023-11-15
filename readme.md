@@ -20,11 +20,11 @@ Prosjektet bruker maven til bygging og kjøring.
 - For å bygge, kjør `mvn clean install`, med `SpringBoot` kjørende i bakgrunenn, fra rot-prosjektet (Bankapp-mappa). Dette vil kjøre alle tester og kvalitetssjekker.
   
 **For Windows:**
-- Kjør `mvn clean install -DskipTests` uten `SpringBoot` kjørende i balgrunne. Dette vil kjøre alle tester og kvalitetssjekker.
+- Kjør `mvn clean install -DskipTests` uten `SpringBoot` kjørende i balkgrunnen. Dette vil kjøre alle tester og kvalitetssjekker.
 
 
 
-Prosjektet skal så kjøres fra **fxui**-modulen, enten med `mvn javafx:run -f fxui/pom.xml` inni bankapp-mappen, eller ved å først kjøre `cd fxui` og så kjøre `mvn javafx:run`. Her må `SpringBoot` kjøre i bakgrunnen. 
+Prosjektet kjøres fra **fxui**-modulen, ved å først kjøre `SpringBoot` og deretter kjøre applikasjonen ved å enten kjøre `mvn javafx:run -f fxui/pom.xml` inni bankapp-mappen, eller ved å først gå inn i fxui-mappen ved å kjøre `cd fxui` og deretter kjøre `mvn javafx:run`. 
 
 Applikasjonen vi har å laget er en bankapplikasjon, basert løst på bankapplikasjoner for mobil. All form for fxui, fxml komponenter og kontrollere ligger inne i bankapp-fxui modulen. All logikk som blir brukt av appen ligger i bankapp-core modulen. Lagring og henting av informasjon skjer gjennom bankapp-springboot modulen. 
 
