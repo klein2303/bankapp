@@ -72,9 +72,13 @@ Testing av springboot ligger på rundt 70%. Grunnen til at denne ikke er høyere
 ### Kodekvalitet 
 Kodekvalitet har gått gjennom sjekker med både <em>Spotbugs</em> og <em>Checkstyle</em>. Ved hjelp av disse verktøyene har gruppen gjort nødvendige endringer for å sikre god kodekvalitet. Målet var å ikke ha noen <em>Spotbugs-errors</em>, ingen <em>Checkstyle-violations</em> og heller ingen <em>Checkstyle-warnings</em>. Dette har gruppen klart.
 
+### Shippable 
+Et nytt krav for denne releasen var at prosjektet skulle ha configurasjonen for å lage et shippable produkt. Måten vi gjorde dette var å sette inn en jpackage-maven-plugin i fxui sin pom. Deretter måtte de som har windows laste ned WiX. For å generere shippable produktet skriver man inn kommandoen: mvn clean compile javafx:jlink jpackage:jpackage. Dette genererer en dist mappe i fxui sin target som inneholder bankappFx-1.0.0.exe. Man trykker på denne for å laste ned BankAppFX appen. For å kjøre programmen lokalt fra pcen må man kjøre springboot i bakgrunnen. Om springboot kjører i bakgrunenn kan man direkte trykke på BankAppFX for å kjøre appen.
+
 
 ### Javadoc
 Alle klasser har fått javadoc, da dette er en god praksis. Med <em>Checkstyle</em>-verktøyet har gruppen også sørget for at dette har blitt skrevet på et "riktig" og konsist format. Gruppen fulgte en Google-konvensjon for dette (hentet fra Todo-List-prosjektet).
+
 
 ### Øvrig dokumentasjon (diagrammer)
 Pakkediagram, klassediagram og sekvensdiagram har blitt laget. Ut i fra det som ble skrevet på piazza virket det som at strukturen i klassediagrammet var en beslutning gruppene selv måtte komme til enighet om. Gruppen bestemte seg derfor for å gå for et diagram der man kun ser på klassene i <em>core</em>. Siden sekvensdiagrammet uansett tydeliggjør sammenhengen mellom de ulike modulene, valgte gruppen å heller fokusere spesifikt på <em>core</em> for å tydeliggjøre hvordan logikken henger sammen. Essensen i et klassediagram er fremdeles tilstede, altså å tydeliggjøre strukturen i koden og hvordan klasser henger sammen. 
