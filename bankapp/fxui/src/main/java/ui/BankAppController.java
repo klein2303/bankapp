@@ -893,7 +893,7 @@ public class BankAppController {
    */
   @FXML
   public void handleDeleteAccountStage1(MouseEvent event) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("deleteAccount.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("DeleteAccount.fxml"));
     AnchorPane deleteAccount = loader.load();
     Stage stage = new Stage();
     stage.setScene(new Scene(deleteAccount));
