@@ -4,7 +4,7 @@ Dette prosjektet er et utviklingsprosjekt utviklet i forbindelse med emnet IT190
 
 <em>Dette prosjektet krever Java version **16**, maven versjon **4.0.0**, maven compiler.source **16** og javafx version **17.0.2**. 
 
-- (kjent problem med nyeste Mac programvare): Dersom du har en mac med MacOs Sonoma 14.0 kan det hende at applikasjonen kjører i bakgrunnen. Derfor er det viktig å gå ut av VSCode når man tester, slik at testene fungerer. 
+- (kjent problem med nyeste Mac programvare): Dersom du har en mac med MacOs Sonoma 14.0 kan det hende at applikasjonen kjører i bakgrunnen. Derfor er det viktig å gå ut av din IDE når man tester, slik at testene fungerer. 
 </em>
 
 ## Om applikasjonen:
